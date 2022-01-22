@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'appTwo/base.html' %}
+{% block body_block %}
+    <h1>Our Website is Working!</h1>
+    <p>Go to /users this url to see list of all users</p>
+    <p>Go to /adduser this url to add a new user</p>
+    <p>Go to /formpage this url to see your form</p>
+
+    {{ text|upper }}            <!-- Using built-in filters -->
+    {{ number|add:"8" }}        <!-- Using built-in filters with parameters -->
+    {{ text|cut:"World" }}      <!-- Using Custom filters created in templatetags directory -->
+    <div>
+        <a href="{% url 'AppTwo:users' %}" target="_blank">Users</a>
+        <a href="{% url 'AppTwo:add_new_user' %}" target="_blank">Add User</a>
+        <a href="{% url 'admin:index' %}" target="_blank">Admin</a>
+    </div>
+{% endblock %}
+
