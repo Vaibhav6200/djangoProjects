@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'cars',
     'ckeditor',
     'multiselectfield',
+    'django.contrib.humanize',      # this is an inbuilt package in django which is used to make things human readable, e.g.  12,500 is more readable than 12500
 ]
 
 MIDDLEWARE = [
