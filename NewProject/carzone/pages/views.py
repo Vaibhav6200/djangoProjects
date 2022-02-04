@@ -7,10 +7,12 @@ def index(request):
     teams = Team.objects.all()
     featured_cars = Car.objects.filter(is_featured=True)
     all_cars = Car.objects.all()
+    search_fields = Car.objects.values('model', 'city', 'year', 'body_style')
     data = {
         'teams': teams,
         'featured_cars': featured_cars,
         'all_cars': all_cars,
+        'search_fields': search_fields,
     }
     return render(request, 'pages/index.html', data)
 
