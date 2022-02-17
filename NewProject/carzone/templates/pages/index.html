@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %} Home {% endblock %}
+
 {% block content %}
 
 <!--Humanize is built-in package of django which is used to make things more human readable, e.g. 12,500 is more readable than 12500-->
 {% load humanize %}
+
+
 <div class="page_loader"></div>
 
 <!-- Banner start -->
@@ -40,39 +45,39 @@
         </div>
         <!-- Search box 3 start -->
         <div class="search-box-4 sb-8">
-            <form action="#" method="">
+            <form action="{% url 'cars:search' %}" method="get">
                 <div class="form-group">
                     <input type="text" name="keyword" placeholder="Search by name" class="form-control">
                 </div>
                 <div class="form-group">
-                    <select class="form-control search-fields" name="select-make">
+                    <select class="form-control search-fields" name="model">
                         <option selected="true" disabled="disabled">Model</option>
-                        {% for models in search_fields %}
-                            <option value="{{ models.model }}">{{ models.model }}</option>
+                        {% for model in models_search %}
+                            <option value="{{ model }}">{{ model }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control search-fields" name="select-location">
+                    <select class="form-control search-fields" name="city">
                         <option selected="true" disabled="disabled">Location</option>
-                        {% for city in search_fields %}
-                            <option value="{{ city.city }}">{{ city.city }}</option>
+                        {% for city in city_search %}
+                            <option value="{{ city }}">{{ city }}</option> v
                         {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control search-fields" name="select-year">
+                    <select class="form-control search-fields" name="year">
                         <option selected="true" disabled="disabled">Year</option>
-                        {% for year in search_fields %}
-                            <option value="{{ year.year }}">{{ year.year }}</option>
+                        {% for year in year_search %}
+                            <option value="{{ year }}">{{ year }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
-                    <select class="form-control search-fields" name="select-type">
+                    <select class="form-control search-fields" name="body_style">
                         <option selected="true" disabled="disabled">Select Type Of Car</option>
-                        {% for bodyStyles in search_fields %}
-                            <option value="{{ bodyStyles.body_style }}">{{ bodyStyles.body_style }}</option>
+                        {% for body_style in body_style_search %}
+                            <option value="{{ body_style }}">{{ body_style }}</option>
                         {% endfor %}
                     </select>
                 </div>

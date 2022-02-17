@@ -15,7 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
-STATIC_DIRS = os.path.join(BASE_DIR, 'static')
+STATIC_DIRS = os.path.join(BASE_DIR, 'assets')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
 
@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = 'accounts:dashboard'
 
 # Application definition
 
@@ -42,9 +43,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pages',
     'cars',
+    'accounts',
+    'contact',
     'ckeditor',
     'multiselectfield',
     'django.contrib.humanize',      # this is an inbuilt package in django which is used to make things human readable, e.g.  12,500 is more readable than 12500
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # provides
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -133,10 +144,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
 STATICFILES_DIRS = [
     STATIC_DIRS,
 ]
+
 
 # Media Settings
 MEDIA_URL = '/media/'
@@ -146,3 +158,15 @@ MEDIA_ROOT = MEDIA_DIR
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+# Email sending
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "vaibhavpaliwal620@gmail.com"
+EMAIL_HOST_PASSWORD = "22-02-2002"
+EMAIL_USE_TLS = True

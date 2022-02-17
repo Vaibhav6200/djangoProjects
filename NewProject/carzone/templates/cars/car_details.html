@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+
+{% block title %} {{ single_car.car_title }} {% endblock %}
+
 {% block content %}
 {% load static %}
 {% load humanize %}
@@ -21,6 +24,7 @@
 <!-- Car details page start -->
 <div class="car-details-page content-area-6">
     <div class="container">
+        {% include 'includes/messages.html' %}
         <div class="row">
             <div class="col-lg-8 col-md-12 col-xs-12">
                 <div class="car-details-section">
@@ -199,23 +203,37 @@
                     <div class="modal fade" id="inquiryModal" role="dialog">
                       <div class="modal-dialog">
                         <div class="modal-content">
-                          <div class="contact-dealer modal-header">
+                          <div class="contact-dealer modal-header" id="contactImage">
                             <!-- <h5 class="modal-title" id="inquiryModalLabel">Contact Dealer</h5> -->
-                            <img src="img/logos/logo-black-white.png">
+                            <img src="{% static 'img/logos/logo-black-white.png' %}">
                             <button type="button" class="close" data-dismiss="modal">
                               <span>&times;</span>
                             </button>
                           </div>
                           <div class="modal-body">
-                            <form action="#">
+
+
+                            <form action="{% url 'contact:inquiry' %}" method="post">
+                                {% csrf_token %}
+
+                                {% if user.is_authenticated %}
+                                    <input type="hidden" name="user_id" value="{{user.id}}">
+                                {% else %}
+                                    <input type="hidden" name="user_id" value="0">
+                                {% endif %}
+
+                                <input type="hidden" name="car_id" value="{{ single_car.id }}">
+
                                 <div class="form-group">
                                   <label for="name" class="col-form-label">Hello, My Name is</label>
                                   <div class="row">
                                     <div class="col">
-                                      <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+                                      <input type="text" name="first_name" class="form-control" placeholder="First Name"
+                                             {% if user.is_authenticated %} value="{{ user.first_name }}" {% endif %} required>
                                     </div>
                                     <div class="col">
-                                      <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
+                                      <input type="text" name="last_name" class="form-control" placeholder="Last Name"
+                                             {% if user.is_authenticated %} value="{{ user.last_name }}" {% endif %} required>
                                     </div>
                                   </div>
                                 </div>
@@ -229,7 +247,7 @@
                                     </div>
 
                                 <div class="form-group">
-                                  <input type="text" name="car_title" class="form-control" value="LAMBORGHINI HURACÁN." readonly>
+                                  <input type="text" name="car_title" class="form-control" value="{{single_car.car_title}}" readonly>
                                 </div>
 
                                 <div class="form-group">
@@ -248,11 +266,12 @@
                                   <div class="row">
                                     <div class="col">
                                         <label for="name" class="col-form-label">You can reach me by email at</label>
-                                      <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                                      <input type="email" name="customer_email" class="form-control" placeholder="Email Address"
+                                             {% if user.is_authenticated %} value="{{ user.email }}" {% endif %} required>
                                     </div>
                                     <div class="col">
                                         <label for="phone" class="col-form-label">or by phone at</label>
-                                      <input type="text" name="phone" placeholder="Phone Number (optional)" class="form-control">
+                                      <input type="text" name="customer_phone" placeholder="Phone Number (optional)" class="form-control">
                                     </div>
                                   </div>
                                 </div>
